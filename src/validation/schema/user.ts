@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const ROLE = ['ADMIN', 'TEACHER', 'STUDENT'] as const;
+
 export const userSchema = z.object({
   username: z
     .string()
@@ -9,8 +11,6 @@ export const userSchema = z.object({
   password: z
     .string()
     .min(6, { message: 'Password must be at least 6 characters.' })
-    .max(255)
-    .optional()
-    .or(z.literal('')),
-  role: z.string().optional(),
+    .max(255),
+  role: z.enum(ROLE).optional(),
 });

@@ -36,6 +36,7 @@ export const createNewUser: RequestHandler = async (req, res) => {
 export const signIn: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
+  // TODO sign in validation schema
   if (!email || !password || email === '' || password === '') {
     sendErrorRes(res, 'All fields are required', 400);
   }
@@ -62,4 +63,11 @@ export const signIn: RequestHandler = async (req, res) => {
       role: user.role,
     },
   });
+};
+
+export const signOut: RequestHandler = async (req, res) => {
+  res
+    .clearCookie('access_token')
+    .status(200)
+    .json({ message: 'Sign out successful.' });
 };
