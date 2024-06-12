@@ -18,7 +18,7 @@ export const createNewUser: RequestHandler = async (req, res) => {
   if (existingUser) {
     return sendErrorRes(
       res,
-      'Unauthorized request, email is already in use!',
+      'Unauthorized request, email is already in use.',
       401
     );
   }
@@ -36,11 +36,6 @@ export const createNewUser: RequestHandler = async (req, res) => {
 export const signIn: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
-  // TODO sign in validation schema
-  if (!email || !password || email === '' || password === '') {
-    sendErrorRes(res, 'All fields are required', 400);
-  }
-
   const user = await UserModel.findUnique({ where: { email } });
   if (!user) {
     return sendErrorRes(res, 'Email/Password mismatch', 403);
@@ -54,7 +49,7 @@ export const signIn: RequestHandler = async (req, res) => {
   const payload = { id: user.id };
   const accessToken = jwt.sign(payload, JWT_SECRET);
 
-  res.cookie('access_token', accessToken).json({
+  res.json({
     profile: {
       id: user.id,
       username: user.username,
@@ -62,12 +57,10 @@ export const signIn: RequestHandler = async (req, res) => {
       avatar: user.avatar,
       role: user.role,
     },
+    access_token: accessToken,
   });
 };
 
 export const signOut: RequestHandler = async (req, res) => {
-  res
-    .clearCookie('access_token')
-    .status(200)
-    .json({ message: 'Sign out successful.' });
+  res.status(200).json({ message: 'Sign out successful.' });
 };

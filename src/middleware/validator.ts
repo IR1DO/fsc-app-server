@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { sendErrorRes } from 'src/utils/helper';
 import { z } from 'zod';
 
-const validate = <T extends z.ZodRawShape>(
+export const validate = <T extends z.ZodRawShape>(
   schema: z.ZodObject<T>
 ): RequestHandler => {
   return (req, res, next) => {
@@ -18,5 +18,3 @@ const validate = <T extends z.ZodRawShape>(
     }
   };
 };
-
-export default validate;
