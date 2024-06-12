@@ -57,7 +57,7 @@ export const signIn: RequestHandler = async (req, res) => {
       avatar: user.avatar,
       role: user.role,
     },
-    access_token: accessToken,
+    token: accessToken,
   });
 };
 
