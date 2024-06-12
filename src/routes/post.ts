@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createPost } from 'src/controllers/post';
+import { createPost, getPostById } from 'src/controllers/post';
 import { verifyRole, verifyToken } from 'src/middleware/auth';
 import { validate } from 'src/middleware/validator';
 import { postCreateSchema } from 'src/validation/schema/post';
@@ -13,5 +13,6 @@ postRouter.post(
   validate(postCreateSchema),
   createPost
 );
+postRouter.get('/:id', getPostById);
 
 export default postRouter;
