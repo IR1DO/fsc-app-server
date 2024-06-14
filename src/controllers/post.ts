@@ -37,7 +37,7 @@ export const getPosts: RequestHandler = async (req, res) => {
     category,
     postId,
     searchTerm,
-    sortDirection = 'desc',
+    order,
     startIndex = 0,
     limit = 9,
   } = req.query;
@@ -45,7 +45,7 @@ export const getPosts: RequestHandler = async (req, res) => {
   const whereClause: any = {};
 
   if (userId) {
-    whereClause.userId = Number(userId);
+    whereClause.userId = userId;
   }
 
   if (category) {
@@ -53,7 +53,7 @@ export const getPosts: RequestHandler = async (req, res) => {
   }
 
   if (postId) {
-    whereClause.id = Number(postId);
+    whereClause.id = postId;
   }
 
   if (searchTerm) {
@@ -64,10 +64,8 @@ export const getPosts: RequestHandler = async (req, res) => {
   }
 
   const validSortDirections: Array<'asc' | 'desc'> = ['asc', 'desc'];
-  const sortDirectionStr = validSortDirections.includes(
-    sortDirection as 'asc' | 'desc'
-  )
-    ? (sortDirection as 'asc' | 'desc')
+  const sortDirectionStr = validSortDirections.includes(order as 'asc' | 'desc')
+    ? (order as 'asc' | 'desc')
     : 'desc';
 
   const posts = await PostModel.findMany({
